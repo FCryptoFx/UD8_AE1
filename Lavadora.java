@@ -3,7 +3,7 @@ package UD8_AE1_Actividad_entregable;
 public class Lavadora extends Electrodomestico {
 
 	//Attributes:
-	private double carga;
+	protected double carga = 5;
 
 	//Getters & Setters:
 	public double getCarga() {
@@ -11,14 +11,14 @@ public class Lavadora extends Electrodomestico {
 	}
 
 	public void setCarga(double carga) {
-		this.carga = carga;
+		this.carga=carga;
 	}
 	
 	//Builders:
 	public Lavadora () {}
+	
 	public Lavadora (double precioBase, double peso) {
-		this.precioBase=precioBase;
-		this.peso=peso;
+		super(precioBase, peso);
 	}
 	
 	public Lavadora (double precioBase, String color, double peso, char consumoEnergetico, double carga) {
@@ -27,12 +27,19 @@ public class Lavadora extends Electrodomestico {
 	}
 	
 	//Methods:
-	public double precioFinal (double carga, double precioBase) {
-		double precioFinalLavadora = 0;
-		if (carga > 30) {
-			precioFinalLavadora=precioBase+50;
-		} else precioFinalLavadora = precioBase;
+	public double precioFinal() {
+		double precioActualizado=super.precioFinal();
 		
-	return precioFinalLavadora;
+		if(this.carga > 30) {
+			this.precioBase+=30;
+			precioActualizado+=50;
+		}
+		return precioActualizado;
+	}
+	
+	@Override
+	public String toString() {
+		return "Lavadora ==> Carga: "+carga+", Precio Base: "+precioBase+"€ , Color: "+color+", Peso: "+peso
+				+", Consumo Energético: "+consumoEnergetico;
 	}
 }

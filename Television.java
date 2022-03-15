@@ -3,8 +3,8 @@ package UD8_AE1_Actividad_entregable;
 public class Television extends Electrodomestico {
 
 	//Attributes:
-	public double resolucion;
-	public boolean smartTV;
+	public double resolucion = 20;
+	public boolean smartTV = false;
 	
 	//Getters & Setters:
 	public double getResolucion() {
@@ -24,8 +24,7 @@ public class Television extends Electrodomestico {
 	public Television () {}
 	
 	public Television (double precioBase, double peso) {
-		this.precioBase=precioBase;
-		this.peso=peso;
+		super(precioBase, peso);
 	}
 	
 	public Television (double precioBase, String color, double peso, char consumoEnergetico, double resolucion, boolean smartTV) {
@@ -35,5 +34,21 @@ public class Television extends Electrodomestico {
 	}	
 	
 	//Methods:
-
+	public double precioFinal() {
+		double precioActualizado=super.precioFinal();
+		
+		if(this.resolucion>40) {
+			precioActualizado *= 1.03;
+		}
+		if(smartTV) {
+			precioActualizado += 50;
+		}	
+		return precioActualizado;
+	}
+	
+	@Override
+	public String toString() {
+		return "Televisión ==> Resolución: "+resolucion+", SmartTV: " + smartTV + ", Precio Base: " +precioBase
+				+"€ , Color: "+ color+", Peso: "+peso+", Consumo Energético: "+consumoEnergetico;
+	}
 }

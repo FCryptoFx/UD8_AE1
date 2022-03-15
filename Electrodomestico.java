@@ -3,10 +3,10 @@ package UD8_AE1_Actividad_entregable;
 public class Electrodomestico {
 	
 	//Attributes:
-	public double precioBase;
-	public String color;
-	public double peso;
-	public char consumoEnergetico;
+	protected double precioBase = 100;
+	protected String color = "Blanco";
+	protected double peso;
+	protected char consumoEnergetico = 'F';
 	
 	//Getters & Setters
 	public double getPrecioBase() {
@@ -27,10 +27,11 @@ public class Electrodomestico {
 	public void setPeso(double peso) {
 		this.peso = peso;
 	}
-	//No sé como obligas a un atributo char a estar entre dos valores array? if's?
+	
 	public char getConsumoEnergetico() {
 		return consumoEnergetico;
 	}
+	
 	public void setConsumoEnergetico(char consumoEnergetico) {
 		this.consumoEnergetico = consumoEnergetico;
 	}
@@ -45,44 +46,64 @@ public class Electrodomestico {
 	
 	public Electrodomestico (double precioBase, String color, double peso, char consumoEnergetico) {
 		this.precioBase=precioBase;
-		this.color=color;
+		this.color= comprobarColor(color);
 		this.peso=peso;
-		this.consumoEnergetico=consumoEnergetico;
+		this.consumoEnergetico=comprobarConsumo(consumoEnergetico);
 	}
 	
 	//Methods:
 	public char comprobarConsumo (char consumoEnergetico) {
-		if (this.getConsumoEnergetico() == 'A' || this.getConsumoEnergetico() == 'B' || this.getConsumoEnergetico() == 'C' || this.getConsumoEnergetico() == 'D' || this.getConsumoEnergetico() == 'E' || this.getConsumoEnergetico() == 'F') {
-			 this.setConsumoEnergetico(this.consumoEnergetico);
-		}else  this.setConsumoEnergetico('F');
-	
-	return getConsumoEnergetico();
-	}
-	
-	public String comprobarColor (String Color) {
-		if (this.getColor() == "blanco" || this.getColor() == "negro" || this.getColor() == "rojo" || this.getColor() == "azul" || this.getColor() == "gris") {
-			this.setColor(this.color);
-		} else this.setColor("blanco");
+		char consumoActualizado = 'F';
 		
-	return this.getColor();
+		if (Character.toString(consumoEnergetico).matches("[a-f]") || Character.toString(consumoEnergetico).matches("[A-F]")) {
+			consumoActualizado = Character.toUpperCase(consumoEnergetico);
+		}
+		return consumoActualizado;
 	}
 	
-	public double precioFinal (char consumoEnergetico, double precioBase, double peso) {
-		double precioFinal = 0;
-		if (consumoEnergetico == 'A' || peso >= 79) {
-			precioFinal = precioBase+100;
-		} else if (consumoEnergetico == 'B' || (peso >= 50 && peso < 79)) {
-			precioFinal = precioBase+80;
-		} else if (consumoEnergetico == 'C') {
-			precioFinal = precioBase+60;
-		}else if (consumoEnergetico == 'D' || (peso >= 20 && peso <= 49)) {
-			precioFinal = precioBase+50;
-		}else if (consumoEnergetico == 'E') {
-			precioFinal = precioBase+30;
-		}else if (consumoEnergetico == 'F' || peso <= 19) {
-			precioFinal = precioBase+10;
+	public String comprobarColor(String color) {
+		String colorActualizado="Blanco";
+		
+		if(color.equalsIgnoreCase("Rojo") || color.equalsIgnoreCase("Negro") || color.equalsIgnoreCase("Azul") || color.equalsIgnoreCase("Gris")) {
+			colorActualizado=color;
+		}
+		return colorActualizado;
+	}
+	
+public double precioFinal() {
+		
+		double precioActualizado = 0;
+		
+		if(this.consumoEnergetico=='A') {
+			precioActualizado = (this.getPrecioBase()+100);
+		} else if(this.consumoEnergetico=='B') {
+			precioActualizado = (this.getPrecioBase()+80);
+		} else if(this.consumoEnergetico=='C') {
+			precioActualizado = (this.getPrecioBase()+60);
+		} else if(this.consumoEnergetico=='D') {
+			precioActualizado = (this.getPrecioBase()+50);
+		} else if(this.consumoEnergetico=='E') {
+			precioActualizado = (this.getPrecioBase()+30);
+		} else if(this.consumoEnergetico=='F') {
+			precioActualizado = (this.getPrecioBase()+10);
 		}
 		
-	return precioFinal;
+		if(this.peso <= 19) {
+			precioActualizado = (this.getPrecioBase()+10);
+		} else if(this.peso >= 20 && this.peso <= 49) {
+			precioActualizado = (this.getPrecioBase()+50);
+		} else if(this.peso >= 50 && this.peso <= 79) {
+			precioActualizado = (this.getPrecioBase()+80);
+		} else if(this.peso > 79) {
+			precioActualizado = (this.getPrecioBase()+100);
+		}
+		
+		return precioActualizado;
+	}
+
+	@Override
+	public String toString() {
+		return "Electrodoméstico ==> Precio Base: "+precioBase+"€ , Color: "+color+", Peso: "+peso
+				+", Consumo Energético:"+consumoEnergetico;
 	}
 }
